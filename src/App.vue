@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import { MapComponent } from '@/components'
 </script>
 
 <template>
@@ -12,7 +13,6 @@ import { RouterView } from 'vue-router'
     </aside>
   </div>
 </template>
-
 
 <style scoped>
 .app {

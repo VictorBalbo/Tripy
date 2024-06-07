@@ -19,7 +19,7 @@
   --section-gap: 160px;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--color-black);
 
@@ -28,7 +28,7 @@
     --color-heading: var(--color-white);
     --color-text: var(--color-light-gray);
   }
-}
+} */
 
 *,
 *::before,
@@ -51,7 +51,6 @@ body {
     background-color 0.5s;
   line-height: 1.6;
   font-family: Poppins;
-  font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
