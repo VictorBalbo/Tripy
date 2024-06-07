@@ -56,3 +56,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+h1 {
+  color: var(--color-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+h2 {
+  color: var(--color-heading);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+h3 {
+  color: var(--color-subheading);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
