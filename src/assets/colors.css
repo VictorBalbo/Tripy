@@ -3,10 +3,16 @@
   --color-white: #ffffff;
   --color-black: #181818;
 
+  --color-light-indigo: #3e5871;
   --color-indigo: #2c3e50;
-  --color-dark-indigo: #1A252F;
+  --color-dark-indigo: #1a252f;
 
-  --color-light-gray: #C4C4C4;
-  --color-medium-gray: #9D9D9D;
-  --color-dark-gray: #4F4F4F;
+  --color-light-gray: #dde9ed;
+  --color-medium-gray: #658c96;
+  --color-dark-gray: #0f3e4a;
+
+  --color-blue: #1677ff;
+  --color-blue-faded: #4096ff;
+  --color-blue-active: #0958d9;
+  --color-orange: #ff9d00;
 }

@@ -66,7 +66,11 @@ const openCustomInfoWindow = async (placeId?: string) => {
         </Marker>
       </MarkerCluster>
     </GoogleMap>
-    <MapInfoWindow v-if="currentPlace" :placeId="currentPlace"></MapInfoWindow>
+    <MapInfoWindow
+      v-if="currentPlace"
+      :placeId="currentPlace"
+      @close="() => (currentPlace = undefined)"
+    ></MapInfoWindow>
   </div>
 </template>
 
