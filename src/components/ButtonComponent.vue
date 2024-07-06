@@ -1,6 +1,6 @@
 <template>
   <article class="button">
-    <slot />
+    <p><slot /></p>
   </article>
 </template>
 <style scoped>
@@ -14,9 +14,9 @@
   transition: var(--default-transition);
 }
 .button:hover {
-  background-color: var(--color-blue-faded);
+  background-color: var(--color-primary-light);
 }
 .button:active {
-  background-color: var(--color-blue-active);
+  background-color: var(--color-primary-active);
 }
 </style>

@@ -14,6 +14,5 @@
 }
 .card:hover {
   box-shadow: 0 1px 5px #0000004a;
-  background: #f9fafd;
 }
 </style>

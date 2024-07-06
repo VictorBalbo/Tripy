@@ -11,8 +11,11 @@
   --color-medium-gray: #658c96;
   --color-dark-gray: #0f3e4a;
 
-  --color-blue: #1677ff;
-  --color-blue-faded: #4096ff;
-  --color-blue-active: #0958d9;
+  --color-blue: #1476ff;
+  --color-blue-faded: #e0edff;
+  --color-blue-light: #4995ff;
+  --color-blue-active: #005ee2;
+  --color-blue-dark: #001e47;
+
   --color-orange: #ff9d00;
 }

@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { MapComponent } from '@/components'
+import StyleView from './views/StyleView.vue'
 </script>
 
 <template>
   <div class="app">
     <main class="main">
       <RouterView />
+      <StyleView />
     </main>
     <aside class="aside">
       <MapComponent class="map-component" />

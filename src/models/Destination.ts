@@ -4,8 +4,8 @@ export interface Destination {
   Key: string
   Name: string
   Housing?: Housing
-  Activities: Activity[]
+  Activities?: Activity[]
   Transport?: string
-  StartDate: string
-  EndDate: string
+  StartDate?: string
+  EndDate?: string
 }
