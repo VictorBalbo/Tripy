@@ -8,7 +8,8 @@ defineProps<{ value: string }>()
 
 <style scoped>
 .tag {
-  background-color: var(--color-light-gray);
+  background-color: var(--color-primary-background);
+  color: var(--color-text);
   border-radius: var(--small-spacing);
   display: inline-block;
   padding: 0 var(--small-spacing);
