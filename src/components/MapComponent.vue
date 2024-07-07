@@ -52,8 +52,8 @@ const openCustomInfoWindow = async (placeId?: string) => {
             title: marker.Name,
             animation: 2
           }"
-        >
-        </Marker>
+          @click="() => openCustomInfoWindow(marker.PlaceId)"
+        />
         <Marker
           v-for="marker in housing"
           :key="marker.Name"
@@ -66,11 +66,13 @@ const openCustomInfoWindow = async (placeId?: string) => {
         </Marker>
       </MarkerCluster>
     </GoogleMap>
-    <MapInfoWindow
-      v-if="currentPlace"
-      :placeId="currentPlace"
-      @close="() => (currentPlace = undefined)"
-    ></MapInfoWindow>
+    <Transition>
+      <MapInfoWindow
+        v-if="currentPlace"
+        :placeId="currentPlace"
+        @close="() => (currentPlace = undefined)"
+      />
+    </Transition>
   </div>
 </template>
 
@@ -83,6 +85,17 @@ const openCustomInfoWindow = async (placeId?: string) => {
 .map {
   width: 100%;
   height: 100%;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateX(-2rem);
+  opacity: 0;
 }
 </style>
 
