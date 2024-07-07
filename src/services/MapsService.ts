@@ -1,6 +1,7 @@
 import type { Location } from '@/models/Location'
+import { apiUrl } from '@/constants'
 
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = apiUrl
 
 export class MapsService {
   static getDetaisForPlaceName = async (input: string) => {
