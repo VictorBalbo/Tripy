@@ -10,6 +10,7 @@
 /* semantic color variables for this project */
 :root {
   --color-background: var(--color-white);
+  --color-background-2: var(--color-ghost-white);
   --color-heading: var(--color-dark-indigo);
   --color-subheading: var(--color-light-indigo);
   --color-text: var(--color-indigo);
@@ -24,12 +25,13 @@
 
 /* @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--color-black);
+    --color-background: var(--color-jet-black);
+    --color-background-2: var(--color-black);
     --color-heading: var(--color-white);
     --color-subheading: var(--color-light-indigo);
     --color-text: var(--color-light-gray);
 
-    --color-border: var(--color-dark-gray);
+    --color-border: var(--color-onyx);
 
     --color-primary: var(--color-blue);
     --color-primary-light: var(--color-blue-light);
@@ -95,4 +97,30 @@ a {
 }
 p {
   font-size: 0.875rem;
+}
+
+.scroll {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #babac0 #00000000;
+}
+.scroll::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+/* background of the scrollbar except button or resizer */
+.scroll::-webkit-scrollbar-track {
+  background-color: #0000;
+}
+
+/* scrollbar itself */
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 1rem;
+  border: 2px solid white;
+}
+
+/* set button(top and bottom of the scrollbar) */
+.scroll::-webkit-scrollbar-button {
+  display: none;
 }

@@ -1,7 +1,12 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
   --color-white: #ffffff;
-  --color-black: #181818;
+  --color-ghost-white: #f9fcfd;
+
+  --color-black: #000000;
+  --color-jet-black: #0e0e10;
+
+  --color-onyx: #353839;
 
   --color-light-indigo: #3e5871;
   --color-indigo: #2c3e50;
@@ -18,4 +23,5 @@
   --color-blue-dark: #001e47;
 
   --color-orange: #ff9d00;
+  --color-red: #eb5545;
 }
