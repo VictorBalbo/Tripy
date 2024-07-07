@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { AddIcon, ClockIcon, GlobeIcon, MarkerIcon, StarIcon, PhoneIcon } from '@/components/icons'
+import { ButtonComponent } from '@/components'
+</script>
 <template>
   <h1>Title 1</h1>
   <h2>Title 2</h2>
@@ -34,6 +37,16 @@
     Primary Color Active
     <div class="demo primary-color-active"></div>
   </div>
+  <div>Icons</div>
+  <AddIcon class="icon" />
+  <ClockIcon class="icon" />
+  <GlobeIcon class="icon" />
+  <MarkerIcon class="icon" />
+  <PhoneIcon class="icon" />
+  <StarIcon class="icon" />
+  <div>Buttons</div>
+  <ButtonComponent type="primary"> Button Primary</ButtonComponent>
+  <ButtonComponent type="secondary"> Button Secondary</ButtonComponent>
 </template>
 <style scoped>
 .example {
@@ -68,5 +81,8 @@
 }
 .primary-color-active {
   background-color: var(--color-primary-dark);
+}
+.icon {
+  width: 1.25rem;
 }
 </style>
