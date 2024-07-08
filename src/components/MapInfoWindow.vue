@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
-import { ButtonComponent, CardComponent, TagComponent } from '.'
-import { AddIcon, GlobeIcon, StarIcon } from './icons'
+import {
+  Accordion,
+  AccordionPanel,
+  AccordionHeader,
+  AccordionContent,
+  ButtonComponent,
+  CardComponent,
+  TagComponent
+} from '.'
+import { AddIcon, GlobeIcon, StarIcon, TrashIcon } from './icons'
 import { MapsService } from '@/services/MapsService'
 import type { Location } from '@/models/Location'
 import { useTripStore } from '@/stores/tripStore'
-import TrashIcon from './icons/TrashIcon.vue'
 
 const props = defineProps<{
   placeId: string
@@ -20,6 +27,8 @@ const closeWindow = () => emit('close')
 const getUrlDomain = (url: string) => new URL(url).hostname
 const isLocationOnTripItinerary = () =>
   tripStore.activities?.find((a) => a.PlaceId === props.placeId)
+
+const isOpenHoursAccordionOpen = ref(false)
 
 watchEffect(async () => {
   location.value = undefined
@@ -92,16 +101,35 @@ watchEffect(async () => {
               <h4>Website</h4>
               <a :href="location.website">{{ getUrlDomain(location.website) }}</a>
             </article>
-            <article v-if="location.openingHours" class="card-info">
-              <h4>Opening Hours</h4>
-              <p>
-                {{
-                  location.openingHours.weekday_text.find((o) =>
-                    o.startsWith(new Date().toLocaleDateString('en-US', { weekday: 'long' }))
-                  )
-                }}
-              </p>
-            </article>
+            <Accordion
+              v-if="location.openingHours"
+              class="card-info"
+              @update:value="(value) => (isOpenHoursAccordionOpen = value == 1)"
+            >
+              <AccordionPanel value="1">
+                <AccordionHeader>
+                  <section class="accordion-header">
+                    <h4>Opening Hours</h4>
+                    <p v-if="!isOpenHoursAccordionOpen">
+                      {{
+                        location.openingHours.weekday_text.find((o) =>
+                          o.startsWith(new Date().toLocaleDateString('en-US', { weekday: 'long' }))
+                        )
+                      }}
+                    </p>
+                  </section>
+                </AccordionHeader>
+                <AccordionContent>
+                  <p
+                    v-for="(hours, index) in location.openingHours.weekday_text"
+                    :key="index"
+                    class="opening-hours"
+                  >
+                    {{ hours }}
+                  </p>
+                </AccordionContent>
+              </AccordionPanel>
+            </Accordion>
           </section>
         </section>
       </Transition>
@@ -218,6 +246,13 @@ watchEffect(async () => {
 }
 .tag {
   margin: var(--small-spacing) var(--small-spacing) var(--small-spacing) 0;
+}
+.accordion-header {
+  display: flex;
+  flex-direction: column;
+}
+.opening-hours {
+  margin: var(--small-spacing) 0;
 }
 
 .slide-up-enter-active,

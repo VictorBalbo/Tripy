@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AddIcon, ClockIcon, GlobeIcon, MarkerIcon, StarIcon, PhoneIcon } from '@/components/icons'
-import { ButtonComponent } from '@/components'
+import { ButtonComponent, TagComponent } from '@/components'
 import DatePicker from 'primevue/datepicker'
 import { ref } from 'vue'
 
@@ -53,6 +53,7 @@ const date = ref()
   <ButtonComponent outlined>Secondary Button</ButtonComponent>
   <ButtonComponent text>Tertiary Button</ButtonComponent>
   <DatePicker v-model="date">Teste Prime</DatePicker>
+  <TagComponent value="My Tag" />
 </template>
 <style scoped>
 .example {

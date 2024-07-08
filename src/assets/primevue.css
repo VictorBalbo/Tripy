@@ -15,4 +15,13 @@
   --p-button-sm-padding-y: var(--small-spacing);
   --p-button-outlined-primary-color: var(--color-text);
   --p-button-outlined-primary-border-color: var(--color-text);
+
+  /* Tag */
+  --p-tag-primary-color: var(--color-text);
+  --p-tag-primary-background: var(--color-primary-background);
+
+  /* Accordion */
+  --p-accordion-header-padding: 0;
+  --p-accordion-panel-border-width: 0;
+  --p-accordion-content-padding: 0 var(--large-spacing);
 }
