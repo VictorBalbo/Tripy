@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { nextTick, ref, watchEffect } from 'vue'
+import { DateTime } from 'luxon'
 import {
   Accordion,
   AccordionPanel,
@@ -7,9 +8,10 @@ import {
   AccordionContent,
   ButtonComponent,
   CardComponent,
+  DatePickerComponent,
   TagComponent
 } from '.'
-import { AddIcon, GlobeIcon, StarIcon, TrashIcon } from './icons'
+import { AddIcon, EditIcon, GlobeIcon, StarIcon, TrashIcon } from './icons'
 import { MapsService } from '@/services/MapsService'
 import type { Location } from '@/models/Location'
 import { useTripStore } from '@/stores/tripStore'
@@ -24,9 +26,22 @@ const location = ref<Location>()
 
 const getLocationDetails = (id: string) => MapsService.getDetaisForPlaceId(id)
 const closeWindow = () => emit('close')
-const getUrlDomain = (url: string) => new URL(url).hostname
+const getUrlDomain = (url: string) => new URL(url).hostname.replace('www.', '')
 const isLocationOnTripItinerary = () =>
   tripStore.activities?.find((a) => a.PlaceId === props.placeId)
+
+const locationDate = ref<Date>()
+const datePickerRef = ref<typeof DatePickerComponent | null>(null)
+const isEditingDate = ref<Boolean>(!locationDate.value)
+const toogleEditingDate = async () => {
+  if (isEditingDate.value === false) {
+    isEditingDate.value = true
+    await nextTick()
+    datePickerRef.value?.input.focus()
+  } else {
+    isEditingDate.value = false
+  }
+}
 
 const isOpenHoursAccordionOpen = ref(false)
 
@@ -85,6 +100,32 @@ watchEffect(async () => {
             </article>
           </header>
           <section class="body">
+            <article
+              v-if="isLocationOnTripItinerary() && !isEditingDate && locationDate"
+              class="card-editable-info"
+              @click="toogleEditingDate"
+            >
+              <article>
+                <h4>Date</h4>
+                <p>{{ DateTime.fromJSDate(locationDate).toFormat('EEEE, DD HH:mm') }}</p>
+              </article>
+              <EditIcon class="icon" />
+            </article>
+            <article v-else-if="isLocationOnTripItinerary()" class="card-info">
+              <h4>Date</h4>
+              <DatePickerComponent
+                v-model="locationDate"
+                ref="datePickerRef"
+                dateFormat="dd/mm/yy"
+                showTime
+                fluid
+                showIcon
+                :stepMinute="5"
+                hourFormat="24"
+                @hide="() => toogleEditingDate()"
+              />
+            </article>
+
             <article class="card-info">
               <h4>Description</h4>
               <p>{{ location.description }}</p>
@@ -233,6 +274,18 @@ watchEffect(async () => {
   background-color: var(--color-background-soft);
   box-shadow: 0 1px 5px #0000001f;
   border-radius: var(--small-spacing);
+}
+.card-editable-info {
+  padding: var(--large-spacing);
+  margin-bottom: var(--large-spacing);
+  background-color: var(--color-background-soft);
+  box-shadow: 0 1px 5px #0000001f;
+  border-radius: var(--small-spacing);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
 }
 .website-card {
   word-break: break-all;
