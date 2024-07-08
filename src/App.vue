@@ -2,6 +2,20 @@
 import { RouterView } from 'vue-router'
 import { MapComponent } from '@/components'
 import StyleView from './views/StyleView.vue'
+
+const checkDarkMode = () => {
+  console.log()
+  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const element = document.querySelector('html')
+  if (isDarkMode) {
+    element?.classList.add('dark-mode')
+  } else {
+    element?.classList.remove('dark-mode')
+  }
+}
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', checkDarkMode)
+checkDarkMode()
 </script>
 
 <template>

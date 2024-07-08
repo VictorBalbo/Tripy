@@ -120,7 +120,7 @@ watchEffect(async () => {
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: var(--color-background-2);
+  background-color: var(--color-background-soft);
   overflow: auto;
 }
 .info-window-section {

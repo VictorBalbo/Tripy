@@ -10,7 +10,8 @@
 /* semantic color variables for this project */
 :root {
   --color-background: var(--color-white);
-  --color-background-2: var(--color-ghost-white);
+  --color-background-soft: var(--color-ghost-white);
+
   --color-heading: var(--color-dark-indigo);
   --color-subheading: var(--color-light-indigo);
   --color-text: var(--color-indigo);
@@ -23,22 +24,21 @@
   --color-primary-background: var(--color-blue-faded);
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--color-jet-black);
-    --color-background-2: var(--color-black);
-    --color-heading: var(--color-white);
-    --color-subheading: var(--color-light-indigo);
-    --color-text: var(--color-light-gray);
+.dark-mode:root {
+  --color-background: var(--color-black);
+  --color-background-soft: var(--color-jet-black);
 
-    --color-border: var(--color-onyx);
+  --color-heading: var(--color-white);
+  --color-subheading: var(--color-light-indigo);
+  --color-text: var(--color-light-gray);
 
-    --color-primary: var(--color-blue);
-    --color-primary-light: var(--color-blue-light);
-    --color-primary-active: var(--color-blue-active);
-    --color-primary-background: var(--color-blue-dark);
-  }
-} */
+  --color-border: var(--color-onyx);
+
+  --color-primary: var(--color-blue);
+  --color-primary-light: var(--color-blue-light);
+  --color-primary-active: var(--color-blue-active);
+  --color-primary-background: var(--color-blue-dark);
+}
 
 *,
 *::before,
