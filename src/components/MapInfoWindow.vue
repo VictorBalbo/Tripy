@@ -120,7 +120,7 @@ watchEffect(async () => {
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: var(--color-background-soft);
+  background-color: var(--color-background);
   overflow: auto;
 }
 .info-window-section {
@@ -162,7 +162,7 @@ watchEffect(async () => {
   display: flex;
   flex-direction: column;
   padding: var(--small-spacing) var(--large-spacing);
-  background-color: var(--color-background);
+  background-color: var(--color-background-soft);
   border-bottom: 1px var(--color-border) solid;
 }
 .rating {
@@ -206,7 +206,7 @@ watchEffect(async () => {
 .card-info {
   padding: var(--large-spacing);
   margin-bottom: var(--large-spacing);
-  background-color: var(--color-background);
+  background-color: var(--color-background-soft);
   box-shadow: 0 1px 5px #0000001f;
   border-radius: var(--small-spacing);
 }
