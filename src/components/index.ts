@@ -1,4 +1,4 @@
-import ButtonComponent from './ButtonComponent.vue'
+import ButtonComponent from 'primevue/button'
 import CardComponent from './CardComponent.vue'
 import MapComponent from './MapComponent.vue'
 import MapInfoWindow from './MapInfoWindow.vue'

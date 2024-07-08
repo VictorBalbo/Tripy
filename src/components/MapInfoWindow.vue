@@ -56,22 +56,23 @@ watchEffect(async () => {
               />
             </article>
             <article class="actions">
+              <ButtonComponent v-if="!isLocationOnTripItinerary()" size="small" class="add-button">
+                <AddIcon class="icon-button" /> Add to trip
+              </ButtonComponent>
+              <ButtonComponent v-else type="secondary" outlined size="small" class="remove-button">
+                <TrashIcon class="icon-button" /> Remove
+              </ButtonComponent>
               <ButtonComponent
-                v-if="!isLocationOnTripItinerary()"
-                type="primary"
-                class="add-button"
+                as="a"
+                :href="location.website"
+                target="_blank"
+                rel="noreferrer noopener"
+                size="small"
+                outlined
+                class="link link-button"
               >
-                <AddIcon class="icon" />
-                Add to trip
+                <GlobeIcon class="icon-button" /> Go to Website
               </ButtonComponent>
-              <ButtonComponent v-else type="secondary" class="remove-button">
-                <TrashIcon class="icon" />Remove
-              </ButtonComponent>
-              <a :href="location.website" class="link" target="_blank" rel="noreferrer noopener">
-                <ButtonComponent class="link-button" type="secondary">
-                  <GlobeIcon class="icon" /> Go to Website
-                </ButtonComponent>
-              </a>
             </article>
           </header>
           <section class="body">
@@ -179,12 +180,7 @@ watchEffect(async () => {
 }
 .actions .link {
   width: 45%;
-}
-.actions .link-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  color: var(--color-text);
 }
 .actions .add-button,
 .actions .remove-button {
@@ -216,6 +212,9 @@ watchEffect(async () => {
 .icon {
   width: 1rem;
   margin-right: var(--small-spacing);
+}
+.icon-button {
+  width: 1rem;
 }
 .tag {
   margin: var(--small-spacing) var(--small-spacing) var(--small-spacing) 0;

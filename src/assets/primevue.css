@@ -1,0 +1,18 @@
+:root {
+  /* Generic */
+  --p-primary-color: var(--color-primary);
+  --p-primary-hover-color: var(--color-primary-light);
+  --p-primary-active-color: var(--color-primary-active);
+  --p-primary-contrast-color: var(--color-text);
+
+  --p-content-background: var(--color-background-soft);
+  --p-text-color: var(--color-text);
+
+  --p-overlay-popover-padding: var(--small-spacing);
+
+  /* Button */
+  --p-button-sm-padding-x: var(--small-spacing);
+  --p-button-sm-padding-y: var(--small-spacing);
+  --p-button-outlined-primary-color: var(--color-text);
+  --p-button-outlined-primary-border-color: var(--color-text);
+}

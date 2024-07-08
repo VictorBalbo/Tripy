@@ -4,7 +4,6 @@ import { MapComponent } from '@/components'
 import StyleView from './views/StyleView.vue'
 
 const checkDarkMode = () => {
-  console.log()
   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
   const element = document.querySelector('html')
   if (isDarkMode) {
