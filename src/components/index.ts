@@ -3,6 +3,7 @@ import AccordionPanel from 'primevue/accordionpanel'
 import AccordionHeader from 'primevue/accordionheader'
 import AccordionContent from 'primevue/accordioncontent'
 import ButtonComponent from 'primevue/button'
+import DatePickerComponent from 'primevue/datepicker'
 import TagComponent from 'primevue/tag'
 
 import CardComponent from './CardComponent.vue'
@@ -17,5 +18,6 @@ export {
   AccordionHeader,
   AccordionContent,
   ButtonComponent,
+  DatePickerComponent,
   TagComponent
 }
