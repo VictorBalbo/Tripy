@@ -26,13 +26,13 @@
 
 .dark-mode:root {
   --color-background: var(--color-black);
-  --color-background-soft: var(--color-jet-black);
+  --color-background-soft: var(--color-eerie-black);
 
   --color-heading: var(--color-white);
   --color-subheading: var(--color-light-indigo);
   --color-text: var(--color-light-gray);
 
-  --color-border: var(--color-onyx);
+  --color-border: var(--color-eerie-black);
 
   --color-primary: var(--color-blue);
   --color-primary-light: var(--color-blue-light);
