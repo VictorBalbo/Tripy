@@ -87,7 +87,7 @@ const date = ref()
   background-color: var(--color-primary-light);
 }
 .primary-color-active {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-primary-active);
 }
 .icon {
   width: 1.25rem;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { DateTime } from 'luxon'
 import {
   Accordion,
@@ -23,25 +23,14 @@ const emit = defineEmits(['close'])
 const tripStore = useTripStore()
 
 const location = ref<Location>()
+const activity = computed(() => tripStore.activities?.find((a) => a.PlaceId === props.placeId))
 
 const getLocationDetails = (id: string) => MapsService.getDetaisForPlaceId(id)
 const closeWindow = () => emit('close')
 const getUrlDomain = (url: string) => new URL(url).hostname.replace('www.', '')
-const isLocationOnTripItinerary = () =>
-  tripStore.activities?.find((a) => a.PlaceId === props.placeId)
 
-const locationDate = ref<Date>()
-const datePickerRef = ref<typeof DatePickerComponent | null>(null)
-const isEditingDate = ref<Boolean>(!locationDate.value)
-const toogleEditingDate = async () => {
-  if (isEditingDate.value === false) {
-    isEditingDate.value = true
-    await nextTick()
-    datePickerRef.value?.input.focus()
-  } else {
-    isEditingDate.value = false
-  }
-}
+const isEditingDate = ref<Boolean>(false)
+const toogleEditingDate = async () => (isEditingDate.value = !isEditingDate.value)
 
 const isOpenHoursAccordionOpen = ref(false)
 
@@ -80,7 +69,7 @@ watchEffect(async () => {
               />
             </article>
             <article class="actions">
-              <ButtonComponent v-if="!isLocationOnTripItinerary()" size="small" class="add-button">
+              <ButtonComponent v-if="!activity" size="small" class="add-button">
                 <AddIcon class="icon-button" /> Add to trip
               </ButtonComponent>
               <ButtonComponent v-else type="secondary" outlined size="small" class="remove-button">
@@ -101,21 +90,24 @@ watchEffect(async () => {
           </header>
           <section class="body">
             <article
-              v-if="isLocationOnTripItinerary() && !isEditingDate && locationDate"
+              v-if="activity && !isEditingDate"
               class="card-editable-info"
               @click="toogleEditingDate"
             >
               <article>
                 <h4>Date</h4>
-                <p>{{ DateTime.fromJSDate(locationDate).toFormat('EEEE, DD HH:mm') }}</p>
+                <p v-if="activity.DateTime">
+                  {{ DateTime.fromJSDate(activity.DateTime).toFormat('EEEE, DD HH:mm') }}
+                </p>
+                <p v-else>Select a date</p>
               </article>
               <EditIcon class="icon" />
             </article>
-            <article v-else-if="isLocationOnTripItinerary()" class="card-info">
+            <article v-else-if="activity" class="card-info">
               <h4>Date</h4>
               <DatePickerComponent
-                v-model="locationDate"
-                ref="datePickerRef"
+                v-model="activity.DateTime"
+                v-focustrap
                 dateFormat="dd/mm/yy"
                 showTime
                 fluid
@@ -145,7 +137,7 @@ watchEffect(async () => {
             <Accordion
               v-if="location.openingHours"
               class="card-info"
-              @update:value="(value) => (isOpenHoursAccordionOpen = value == 1)"
+              @update:value="(value) => (isOpenHoursAccordionOpen = value === '1')"
             >
               <AccordionPanel value="1">
                 <AccordionHeader>
@@ -185,6 +177,12 @@ watchEffect(async () => {
   position: absolute;
   bottom: 0;
   padding: var(--large-spacing);
+}
+@media (max-width: 480px) {
+  .info-window-container {
+    width: 100%;
+    padding: 0;
+  }
 }
 .info-window {
   width: 100%;

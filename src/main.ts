@@ -6,6 +6,7 @@ import router from './router'
 
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
+import FocusTrap from 'primevue/focustrap'
 import '@/assets/main.css'
 
 const app = createApp(App)
@@ -22,5 +23,6 @@ app.use(PrimeVue, {
     }
   }
 })
+app.directive('focustrap', FocusTrap)
 
 app.mount('#app')
