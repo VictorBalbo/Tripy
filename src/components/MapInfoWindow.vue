@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from 'vue'
-import { DateTime } from 'luxon'
+import dayjs from 'dayjs'
 import {
   Accordion,
   AccordionPanel,
@@ -15,6 +15,8 @@ import { AddIcon, EditIcon, GlobeIcon, StarIcon, TrashIcon } from './icons'
 import { MapsService } from '@/services/MapsService'
 import type { Location } from '@/models/Location'
 import { useTripStore } from '@/stores/tripStore'
+import type { Destination } from '@/models'
+import { distanceBetweenPoints } from '@/models/Coordinates'
 
 const props = defineProps<{
   placeId: string
@@ -23,10 +25,35 @@ const emit = defineEmits(['close'])
 const tripStore = useTripStore()
 
 const location = ref<Location>()
-const activity = computed(() => tripStore.activities?.find((a) => a.PlaceId === props.placeId))
+const activity = computed(() => tripStore.activities?.find((a) => a.placeId === props.placeId))
 
-const getLocationDetails = (id: string) => MapsService.getDetaisForPlaceId(id)
 const closeWindow = () => emit('close')
+const addPlaceToTrip = () => {
+  let closestDestination: Destination
+  let closestDestinationDistance: number = Number.MAX_VALUE
+  tripStore.destinations.forEach((d) => {
+    const distance = distanceBetweenPoints(d.coordinates, location.value!.coordinates)
+    if (!closestDestination || distance < closestDestinationDistance) {
+      closestDestination = d
+      closestDestinationDistance = distance
+    }
+  })
+  closestDestination!.activities?.push({
+    placeId: location.value!.placeId,
+    address: location.value!.address,
+    name: location.value!.name,
+    coordinates: location.value!.coordinates
+  })
+  console.log({ name: tripStore.name, destinations: tripStore.destinations })
+}
+const removePlaceFromTrip = () => {
+  tripStore.destinations.map((d) => {
+    d.activities = d.activities?.filter((a) => a.placeId !== location.value?.placeId)
+    return d
+  })
+  console.log({ name: tripStore.name, destinations: tripStore.destinations })
+}
+
 const getUrlDomain = (url: string) => new URL(url).hostname.replace('www.', '')
 
 const isEditingDate = ref<Boolean>(false)
@@ -36,7 +63,7 @@ const isOpenHoursAccordionOpen = ref(false)
 
 watchEffect(async () => {
   location.value = undefined
-  location.value = await getLocationDetails(props.placeId)
+  location.value = await MapsService.getDetaisForPlaceId(props.placeId)
 })
 </script>
 
@@ -69,10 +96,22 @@ watchEffect(async () => {
               />
             </article>
             <article class="actions">
-              <ButtonComponent v-if="!activity" size="small" class="add-button">
+              <ButtonComponent
+                v-if="!activity"
+                size="small"
+                class="add-button"
+                @click="addPlaceToTrip"
+              >
                 <AddIcon class="icon-button" /> Add to trip
               </ButtonComponent>
-              <ButtonComponent v-else type="secondary" outlined size="small" class="remove-button">
+              <ButtonComponent
+                v-else
+                type="secondary"
+                outlined
+                size="small"
+                class="remove-button"
+                @click="removePlaceFromTrip"
+              >
                 <TrashIcon class="icon-button" /> Remove
               </ButtonComponent>
               <ButtonComponent
@@ -96,8 +135,8 @@ watchEffect(async () => {
             >
               <article>
                 <h4>Date</h4>
-                <p v-if="activity.DateTime">
-                  {{ DateTime.fromJSDate(activity.DateTime).toFormat('EEEE, DD HH:mm') }}
+                <p v-if="activity.dateTime">
+                  {{ dayjs(activity.dateTime).format('ddd, DD MMM HH:mm') }}
                 </p>
                 <p v-else>Select a date</p>
               </article>
@@ -106,7 +145,7 @@ watchEffect(async () => {
             <article v-else-if="activity" class="card-info">
               <h4>Date</h4>
               <DatePickerComponent
-                v-model="activity.DateTime"
+                v-model="activity.dateTime"
                 v-focustrap
                 dateFormat="dd/mm/yy"
                 showTime
@@ -124,7 +163,7 @@ watchEffect(async () => {
             </article>
             <article class="card-info">
               <h4>Address</h4>
-              <a :href="location.mapsUrl">{{ location.address }}</a>
+              <a :href="location.mapsUrl" target="_blank" rel="noopener">{{ location.address }}</a>
             </article>
             <article v-if="location.phoneNumber" class="card-info">
               <h4>Phone</h4>
@@ -132,7 +171,9 @@ watchEffect(async () => {
             </article>
             <article v-if="location.website" class="card-info website-card">
               <h4>Website</h4>
-              <a :href="location.website">{{ getUrlDomain(location.website) }}</a>
+              <a :href="location.website" target="_blank" rel="noopener">{{
+                getUrlDomain(location.website)
+              }}</a>
             </article>
             <Accordion
               v-if="location.openingHours"

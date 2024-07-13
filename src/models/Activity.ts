@@ -1,11 +1,7 @@
-import type { Coordinates } from '.'
+import type { Place } from './Place'
 
-export interface Activity {
-  Name: string
-  Coordinates: Coordinates
-  PlaceId: string
-  Address?: string
-  DateTime?: Date
-  Website?: string
-  Notes?: string
+export interface Activity extends Place {
+  dateTime?: Date
+  website?: string
+  notes?: string
 }

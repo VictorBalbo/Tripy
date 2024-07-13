@@ -28,7 +28,8 @@ const mapUnwatch = watch(
     // Set map boundries to fit all markers
     const latLngBounds = mapRef.value?.api.LatLngBounds
     const bounds = new latLngBounds()
-    activities.value?.forEach((a) => bounds.extend(a.Coordinates))
+    activities.value?.forEach((a) => bounds.extend(a.coordinates))
+    housing.value?.forEach((a) => bounds.extend(a.Coordinates))
     mapRef.value?.map.fitBounds(bounds)
 
     mapUnwatch()
@@ -46,13 +47,13 @@ const openCustomInfoWindow = async (placeId?: string) => {
       <MarkerCluster>
         <Marker
           v-for="marker in activities"
-          :key="marker.Name"
+          :key="marker.name"
           :options="{
-            position: marker.Coordinates,
-            title: marker.Name,
+            position: marker.coordinates,
+            title: marker.name,
             animation: 2
           }"
-          @click="() => openCustomInfoWindow(marker.PlaceId)"
+          @click="() => openCustomInfoWindow(marker.placeId)"
         />
         <Marker
           v-for="marker in housing"

@@ -1,11 +1,12 @@
-import type { Activity, Housing } from '.'
+import type { Activity, Coordinates, Housing } from '.'
 
 export interface Destination {
-  Key: string
-  Name: string
-  Housing?: Housing
-  Activities?: Activity[]
-  Transport?: string
-  StartDate?: string
-  EndDate?: string
+  key: string
+  name: string
+  coordinates: Coordinates
+  housing?: Housing
+  activities?: Activity[]
+  transport?: string
+  startDate?: string
+  endDate?: string
 }

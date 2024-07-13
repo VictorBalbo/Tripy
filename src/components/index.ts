@@ -5,6 +5,7 @@ import AccordionContent from 'primevue/accordioncontent'
 import ButtonComponent from 'primevue/button'
 import DatePickerComponent from 'primevue/datepicker'
 import TagComponent from 'primevue/tag'
+import InputNumber from 'primevue/InputNumber'
 
 import CardComponent from './CardComponent.vue'
 import MapComponent from './MapComponent.vue'
@@ -19,5 +20,6 @@ export {
   AccordionContent,
   ButtonComponent,
   DatePickerComponent,
+  InputNumber,
   TagComponent
 }

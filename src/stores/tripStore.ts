@@ -9,14 +9,14 @@ export const useTripStore = defineStore('trip', () => {
   trip.value = JSON.parse(mockTripData)
 
   const activities = computed(() =>
-    trip.value?.Destinations?.filter((d) => d.Activities?.length).reduce<Activity[]>(
-      (acc, d) => acc.concat(d.Activities ?? []),
+    trip.value?.Destinations?.filter((d) => d.activities?.length).reduce<Activity[]>(
+      (acc, d) => acc.concat(d.activities ?? []),
       []
     )
   )
   const housing = computed(() =>
-    trip.value?.Destinations?.filter((d) => d.Housing).reduce<Housing[]>(
-      (acc, d) => [...acc, d.Housing!],
+    trip.value?.Destinations?.filter((d) => d.housing).reduce<Housing[]>(
+      (acc, d) => [...acc, d.housing!],
       []
     )
   )

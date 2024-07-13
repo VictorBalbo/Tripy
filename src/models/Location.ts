@@ -1,9 +1,8 @@
-export interface Location {
-  placeId: string
-  name: string
+import type { Place } from './Place'
+
+export interface Location extends Place {
   description?: string
   categories?: string[]
-  address: string
   rating?: number
   website?: string
   phoneNumber?: string

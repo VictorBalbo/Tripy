@@ -23,4 +23,29 @@
   --p-accordion-header-padding: 0;
   --p-accordion-panel-border-width: 0;
   --p-accordion-content-padding: 0 var(--large-spacing);
+
+  /* Input Number */
+}
+
+.p-inputnumber-input,
+.p-inputnumber-increment-button,
+.p-inputnumber-decrement-button {
+  border: none;
+  width: 2rem;
+}
+.p-inputnumber-increment-button,
+.p-inputnumber-decrement-button {
+  border: none;
+}
+.p-inputnumber-increment-button:hover,
+.p-inputnumber-decrement-button:hover {
+  border: none;
+  background-color: transparent;
+}
+.p-inputnumber-input {
+  padding: var(--small-spacing) 0;
+  text-align: center;
+  width: 2.5rem;
+  border-radius: 2rem;
+  flex: 0;
 }
