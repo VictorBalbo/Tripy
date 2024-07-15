@@ -85,6 +85,7 @@ const searchLocation = async () => {
           :options="{
             position: marker.coordinates,
             title: marker.name,
+            // @ts-ignore
             animation: 2
           }"
           @click="() => openCustomInfoWindow(marker.placeId)"
@@ -95,6 +96,7 @@ const searchLocation = async () => {
           :options="{
             position: marker.Coordinates,
             title: marker.Name,
+            // @ts-ignore
             animation: 2
           }"
         />
@@ -103,6 +105,7 @@ const searchLocation = async () => {
         v-if="currentPlace"
         :options="{
           position: mapCenter,
+          // @ts-ignore
           animation: 2
         }"
       />
