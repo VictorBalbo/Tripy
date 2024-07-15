@@ -5,10 +5,17 @@ import { GoogleMap, Marker, MarkerCluster } from 'vue3-google-map'
 import { googleKey, googleMapId } from '@/constants'
 import { useTripStore } from '@/stores/tripStore'
 import { MapInfoWindow } from '@/components'
+import AutoComplete from 'primevue/autocomplete'
+import { MapsService } from '@/services'
+import { distanceBetweenPoints, type Coordinates } from '@/models/Coordinates'
+import type { Location } from '@/models'
 
 const tripStore = useTripStore()
 const { activities, housing } = storeToRefs(tripStore)
 const currentPlace = ref<string>()
+const openCustomInfoWindow = async (placeId?: string) => {
+  currentPlace.value = placeId
+}
 
 const mapRef = ref<typeof GoogleMap | null>(null)
 const mapUnwatch = watch(
@@ -36,8 +43,30 @@ const mapUnwatch = watch(
   }
 )
 
-const openCustomInfoWindow = async (placeId?: string) => {
-  currentPlace.value = placeId
+const autocomplete = ref<string | Location>()
+const isLoadingSuggestions = ref(false)
+const suggestion = ref<Location[]>()
+const searchLocation = async () => {
+  try {
+    isLoadingSuggestions.value = true
+    if (!autocomplete.value) {
+      return
+    }
+    const search =
+      typeof autocomplete.value === 'string' ? autocomplete.value : autocomplete.value.name
+    const center = mapRef.value?.map.getCenter()
+    const centerCoordinates: Coordinates = { lat: center.lat(), lng: center.lng() }
+
+    const northEast = mapRef.value?.map.getBounds().getNorthEast()
+    const northEastCoordinates: Coordinates = { lat: northEast.lat(), lng: northEast.lng() }
+
+    const radius = distanceBetweenPoints(centerCoordinates, northEastCoordinates)
+    const locations = await MapsService.getAutocompletePlaceName(search, centerCoordinates, radius)
+    suggestion.value = locations
+  } finally {
+    console.log('finally')
+    isLoadingSuggestions.value = false
+  }
 }
 </script>
 
@@ -63,10 +92,21 @@ const openCustomInfoWindow = async (placeId?: string) => {
             title: marker.Name,
             animation: 2
           }"
-        >
-        </Marker>
+        />
       </MarkerCluster>
     </GoogleMap>
+    <article class="auto-complete">
+      <AutoComplete
+        v-model="autocomplete"
+        :suggestions="suggestion"
+        option-label="name"
+        :loading="isLoadingSuggestions"
+        placeholder="Search for a place"
+        dropdown
+        @complete="searchLocation"
+        @option-select="(e) => openCustomInfoWindow(e.value.placeId)"
+      />
+    </article>
     <Transition>
       <MapInfoWindow
         v-if="currentPlace"
@@ -86,6 +126,14 @@ const openCustomInfoWindow = async (placeId?: string) => {
 .map {
   width: 100%;
   height: 100%;
+}
+.auto-complete {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  padding: var(--large-spacing);
+  display: flex;
+  justify-content: center;
 }
 
 .v-enter-active,

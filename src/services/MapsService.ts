@@ -1,13 +1,30 @@
 import type { Location } from '@/models/Location'
 import { apiUrl } from '@/constants'
+import type { Coordinates } from '@/models'
 
 const BASE_URL = apiUrl
-
+const token = self.crypto.randomUUID()
 export class MapsService {
+  static getAutocompletePlaceName = async (
+    input: string,
+    coordinates: Coordinates,
+    radius: number
+  ) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/places/autocomplete/${input}?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&token=${token}`
+      )
+      const data = (await response.json()) as Location[]
+      return data
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   static getDetaisForPlaceName = async (input: string) => {
     try {
       const response = await fetch(`${BASE_URL}/places/${input}`)
-      const data = await response.json()
+      const data = (await response.json()) as Location[]
       return data
     } catch (e) {
       console.error(e)
