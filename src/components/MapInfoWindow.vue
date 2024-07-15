@@ -13,20 +13,20 @@ import {
 } from '.'
 import { AddIcon, EditIcon, GlobeIcon, StarIcon, TrashIcon } from './icons'
 import { MapsService } from '@/services/MapsService'
-import type { Location } from '@/models/Location'
 import { useTripStore } from '@/stores/tripStore'
-import type { Destination } from '@/models'
+import type { Destination, Location } from '@/models'
 import { distanceBetweenPoints } from '@/models/Coordinates'
 
 const props = defineProps<{
   placeId: string
 }>()
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'locationLoaded'])
 const tripStore = useTripStore()
 
 const location = ref<Location>()
 const activity = computed(() => tripStore.activities?.find((a) => a.placeId === props.placeId))
 
+const centralizeMap = (location: Location) => emit('locationLoaded', location)
 const closeWindow = () => emit('close')
 const addPlaceToTrip = () => {
   let closestDestination: Destination
@@ -64,6 +64,9 @@ const isOpenHoursAccordionOpen = ref(false)
 watchEffect(async () => {
   location.value = undefined
   location.value = await MapsService.getDetaisForPlaceId(props.placeId)
+  if (location.value && location.value.coordinates) {
+    centralizeMap(location.value)
+  }
 })
 </script>
 

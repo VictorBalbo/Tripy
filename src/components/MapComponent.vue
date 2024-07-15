@@ -16,7 +16,7 @@ const currentPlace = ref<string>()
 const openCustomInfoWindow = async (placeId?: string) => {
   currentPlace.value = placeId
 }
-
+const mapCenter = ref<Coordinates>()
 const mapRef = ref<typeof GoogleMap | null>(null)
 const mapUnwatch = watch(
   () => mapRef.value?.ready,
@@ -64,7 +64,6 @@ const searchLocation = async () => {
     const locations = await MapsService.getAutocompletePlaceName(search, centerCoordinates, radius)
     suggestion.value = locations
   } finally {
-    console.log('finally')
     isLoadingSuggestions.value = false
   }
 }
@@ -72,7 +71,13 @@ const searchLocation = async () => {
 
 <template>
   <div class="map-container">
-    <GoogleMap ref="mapRef" class="map" :apiKey="googleKey" :zoom="15" :mapId="googleMapId">
+    <GoogleMap
+      ref="mapRef"
+      class="map"
+      :apiKey="googleKey"
+      :center="mapCenter"
+      :mapId="googleMapId"
+    >
       <MarkerCluster>
         <Marker
           v-for="marker in activities"
@@ -94,6 +99,13 @@ const searchLocation = async () => {
           }"
         />
       </MarkerCluster>
+      <Marker
+        v-if="currentPlace"
+        :options="{
+          position: mapCenter,
+          animation: 2
+        }"
+      />
     </GoogleMap>
     <article class="auto-complete">
       <AutoComplete
@@ -112,6 +124,7 @@ const searchLocation = async () => {
         v-if="currentPlace"
         :placeId="currentPlace"
         @close="() => (currentPlace = undefined)"
+        @location-loaded="(location: Location) => (mapCenter = location.coordinates)"
       />
     </Transition>
   </div>
