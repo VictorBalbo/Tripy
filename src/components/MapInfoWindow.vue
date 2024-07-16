@@ -31,7 +31,7 @@ const closeWindow = () => emit('close')
 const addPlaceToTrip = () => {
   let closestDestination: Destination
   let closestDestinationDistance: number = Number.MAX_VALUE
-  tripStore.destinations.forEach((d) => {
+  tripStore.destinations?.forEach((d) => {
     const distance = distanceBetweenPoints(d.coordinates, location.value!.coordinates)
     if (!closestDestination || distance < closestDestinationDistance) {
       closestDestination = d
@@ -48,7 +48,7 @@ const addPlaceToTrip = () => {
   localStorage.setItem('tripStore', JSON.stringify(store))
 }
 const removePlaceFromTrip = () => {
-  tripStore.destinations.map((d) => {
+  tripStore.destinations?.map((d) => {
     d.activities = d.activities?.filter((a) => a.placeId !== location.value?.placeId)
     return d
   })

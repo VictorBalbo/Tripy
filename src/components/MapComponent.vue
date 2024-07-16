@@ -116,7 +116,7 @@ const searchLocation = async () => {
             borderColor: '#1476ff',
             background: '#4995ff',
             glyphColor: '#005ee2',
-            scale: marker.PlaceId === currentPlace ? 1.25 : 1
+            scale: 1
           }"
         />
         <AdvancedMarker
@@ -142,6 +142,7 @@ const searchLocation = async () => {
         :loading="isLoadingSuggestions"
         placeholder="Search for a place"
         dropdown
+        fluid
         @complete="searchLocation"
         @option-select="(e) => openCustomInfoWindow(e.value.placeId)"
       />

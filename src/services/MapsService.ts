@@ -1,9 +1,10 @@
 import type { Location } from '@/models/Location'
 import { apiUrl } from '@/constants'
 import type { Coordinates } from '@/models'
+import { v4 as uuid } from 'uuid'
 
 const BASE_URL = apiUrl
-const token = self.crypto.randomUUID()
+const token = (self.crypto.randomUUID && self.crypto?.randomUUID()) ?? uuid()
 export class MapsService {
   static getAutocompletePlaceName = async (
     input: string,

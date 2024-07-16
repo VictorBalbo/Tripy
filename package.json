@@ -17,6 +17,7 @@
     "dayjs": "^1.11.11",
     "pinia": "^2.1.7",
     "primevue": "^4.0.0",
+    "uuid": "^10.0.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vue3-google-map": "git://github.com/VictorBalbo/vue3-google-map.git"
@@ -25,6 +26,7 @@
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.12.5",
+    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
