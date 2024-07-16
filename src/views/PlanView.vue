@@ -133,4 +133,16 @@ const updateNights = (destination: Destination, nights: number) => {
   text-align: center;
   justify-content: center;
 }
+
+@media (max-width: 720px) {
+  .activities-field {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .housing-field {
+    display: none;
+  }
+}
 </style>
