@@ -3,7 +3,7 @@
   --p-primary-color: var(--color-primary);
   --p-primary-hover-color: var(--color-primary-light);
   --p-primary-active-color: var(--color-primary-active);
-  --p-primary-contrast-color: var(--color-text);
+  --p-primary-contrast-color: var(--color-white);
   --p-text-color: var(--color-text);
 
   --p-content-background: var(--color-background-soft);

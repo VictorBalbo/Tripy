@@ -9,8 +9,8 @@
 
 /* semantic color variables for this project */
 :root {
-  --color-background: var(--color-white);
-  --color-background-soft: var(--color-ghost-white);
+  --color-background: var(--color-ghost-white);
+  --color-background-soft: var(--color-white);
 
   --color-heading: var(--color-dark-indigo);
   --color-subheading: var(--color-light-indigo);

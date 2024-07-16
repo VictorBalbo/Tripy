@@ -3,7 +3,6 @@ import { useTripStore } from '@/stores/tripStore'
 import { CardComponent, InputNumber } from '@/components'
 import { AddIcon, MinusIcon } from '@/components/icons'
 import dayjs from 'dayjs'
-import { computed, setDevtoolsHook } from 'vue'
 import type { Destination } from '@/models'
 
 const tripStore = useTripStore()
