@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { GoogleMap, Marker, MarkerCluster } from 'vue3-google-map'
+import { GoogleMap, AdvancedMarker, MarkerCluster } from 'vue3-google-map'
 import { googleKey, googleMapId } from '@/constants'
 import { useTripStore } from '@/stores/tripStore'
 import { MapInfoWindow } from '@/components'
@@ -12,11 +12,28 @@ import type { Location } from '@/models'
 
 const tripStore = useTripStore()
 const { activities, housing } = storeToRefs(tripStore)
+
+const mapCenter = ref<Location>()
 const currentPlace = ref<string>()
 const openCustomInfoWindow = async (placeId?: string) => {
-  currentPlace.value = placeId
+  if (currentPlace.value !== placeId) {
+    mapCenter.value = undefined
+    currentPlace.value = placeId
+  }
 }
-const mapCenter = ref<Coordinates>()
+const closeCustomInfoWindow = async () => {
+  mapCenter.value = undefined
+  currentPlace.value = undefined
+}
+const onLocationLoaded = async (location: Location) => {
+  mapCenter.value = location
+  const minZoom = 12
+  if (mapRef.value?.map.zoom && mapRef.value?.map.zoom < minZoom) {
+    mapRef.value.map.zoom = 13
+  }
+  mapRef.value?.map.panTo(location.coordinates)
+}
+
 const mapRef = ref<typeof GoogleMap | null>(null)
 const mapUnwatch = watch(
   () => mapRef.value?.ready,
@@ -37,6 +54,9 @@ const mapUnwatch = watch(
     const bounds = new latLngBounds()
     activities.value?.forEach((a) => bounds.extend(a.coordinates))
     housing.value?.forEach((a) => bounds.extend(a.Coordinates))
+    mapRef.value?.api.event.addListenerOnce(mapRef.value?.map, 'bounds_changed', () =>
+      mapRef.value?.map.setZoom(Math.min(mapRef.value?.map.getZoom(), 14))
+    )
     mapRef.value?.map.fitBounds(bounds)
 
     mapUnwatch()
@@ -71,44 +91,49 @@ const searchLocation = async () => {
 
 <template>
   <div class="map-container">
-    <GoogleMap
-      ref="mapRef"
-      class="map"
-      :apiKey="googleKey"
-      :center="mapCenter"
-      :mapId="googleMapId"
-    >
+    <GoogleMap ref="mapRef" class="map" :apiKey="googleKey" :mapId="googleMapId">
       <MarkerCluster>
-        <Marker
+        <AdvancedMarker
           v-for="marker in activities"
           :key="marker.name"
+          :animation="2"
           :options="{
             position: marker.coordinates,
-            title: marker.name,
-            // @ts-ignore
-            animation: 2
+            title: marker.name
           }"
+          :pin-options="{ scale: marker.placeId === currentPlace ? 1.25 : 1 }"
           @click="() => openCustomInfoWindow(marker.placeId)"
         />
-        <Marker
+        <AdvancedMarker
           v-for="marker in housing"
           :key="marker.Name"
+          :animation="2"
           :options="{
             position: marker.Coordinates,
-            title: marker.Name,
-            // @ts-ignore
-            animation: 2
+            title: marker.Name
+          }"
+          :pin-options="{
+            borderColor: '#1476ff',
+            background: '#4995ff',
+            glyphColor: '#005ee2',
+            scale: marker.PlaceId === currentPlace ? 1.25 : 1
           }"
         />
+        <AdvancedMarker
+          v-if="mapCenter && !activities?.find((a) => a.placeId === currentPlace)"
+          :options="{
+            position: mapCenter?.coordinates,
+            title: mapCenter?.name
+          }"
+          :pin-options="{
+            borderColor: '#658c96',
+            background: '#3e5871',
+            glyphColor: '#1a252f',
+            scale: 1.25
+          }"
+          @click="() => console.log(mapCenter?.placeId)"
+        />
       </MarkerCluster>
-      <Marker
-        v-if="currentPlace"
-        :options="{
-          position: mapCenter,
-          // @ts-ignore
-          animation: 2
-        }"
-      />
     </GoogleMap>
     <article class="auto-complete">
       <AutoComplete
@@ -126,8 +151,8 @@ const searchLocation = async () => {
       <MapInfoWindow
         v-if="currentPlace"
         :placeId="currentPlace"
-        @close="() => (currentPlace = undefined)"
-        @location-loaded="(location: Location) => (mapCenter = location.coordinates)"
+        @close="closeCustomInfoWindow"
+        @location-loaded="onLocationLoaded"
       />
     </Transition>
   </div>
