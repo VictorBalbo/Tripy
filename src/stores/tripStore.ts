@@ -6,7 +6,9 @@ import { mockTripData } from '@/constants'
 export const useTripStore = defineStore('trip', () => {
   const trip = ref<Trip>()
   /// TODO: Remove this mock data
-  trip.value = JSON.parse(mockTripData)
+  // trip.value = JSON.parse(mockTripData)
+  const store = JSON.parse(localStorage.getItem('tripStore') ?? '{}')
+  trip.value = store
 
   const activities = computed(() =>
     trip.value?.Destinations?.filter((d) => d.activities?.length).reduce<Activity[]>(

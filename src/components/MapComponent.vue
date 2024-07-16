@@ -131,7 +131,6 @@ const searchLocation = async () => {
             glyphColor: '#1a252f',
             scale: 1.25
           }"
-          @click="() => console.log(mapCenter?.placeId)"
         />
       </MarkerCluster>
     </GoogleMap>

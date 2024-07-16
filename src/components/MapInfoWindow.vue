@@ -44,14 +44,16 @@ const addPlaceToTrip = () => {
     name: location.value!.name,
     coordinates: location.value!.coordinates
   })
-  console.log({ name: tripStore.name, destinations: tripStore.destinations })
+  const store = { Name: tripStore.name, Destinations: tripStore.destinations }
+  localStorage.setItem('tripStore', JSON.stringify(store))
 }
 const removePlaceFromTrip = () => {
   tripStore.destinations.map((d) => {
     d.activities = d.activities?.filter((a) => a.placeId !== location.value?.placeId)
     return d
   })
-  console.log({ name: tripStore.name, destinations: tripStore.destinations })
+  const store = { Name: tripStore.name, Destinations: tripStore.destinations }
+  localStorage.setItem('tripStore', JSON.stringify(store))
 }
 
 const getUrlDomain = (url: string) => new URL(url).hostname.replace('www.', '')
