@@ -94,7 +94,17 @@ const getColorFromVariables = (color: string) =>
 
 <template>
   <div class="map-container">
-    <GoogleMap ref="mapRef" class="map" :apiKey="googleKey" :mapId="googleMapId">
+    <GoogleMap
+      ref="mapRef"
+      class="map"
+      :apiKey="googleKey"
+      :mapId="googleMapId"
+      gesture-handling="greedy"
+      :zoom-control="false"
+      :map-type-control="false"
+      :fullscreen-control="false"
+      :scale-control="false"
+    >
       <MarkerCluster>
         <AdvancedMarker
           v-for="marker in activities"
@@ -142,15 +152,15 @@ const getColorFromVariables = (color: string) =>
         />
       </MarkerCluster>
     </GoogleMap>
-    <article class="auto-complete">
+    <article class="auto-complete-container">
       <AutoComplete
         v-model="autocomplete"
         :suggestions="suggestion"
         option-label="name"
         :loading="isLoadingSuggestions"
         placeholder="Search for a place"
+        class="auto-complete"
         dropdown
-        fluid
         @complete="searchLocation"
         @option-select="(e) => openCustomInfoWindow(e.value.placeId)"
       />
@@ -166,7 +176,7 @@ const getColorFromVariables = (color: string) =>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .map-container {
   width: 100%;
   height: 100%;
@@ -176,13 +186,17 @@ const getColorFromVariables = (color: string) =>
   width: 100%;
   height: 100%;
 }
-.auto-complete {
+.auto-complete-container {
   width: 100%;
   position: absolute;
   top: 0;
   padding: var(--large-spacing);
   display: flex;
   justify-content: center;
+  .auto-complete {
+    width: 25rem;
+    max-width: 100%;
+  }
 }
 
 .v-enter-active,

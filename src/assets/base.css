@@ -56,10 +56,13 @@
 
 html {
   font-size: 16px;
+  overflow: hidden;
 }
 
 body {
-  min-height: 100vh;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
   color: var(--color-text);
   background: var(--color-background);
   transition:
