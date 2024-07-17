@@ -283,7 +283,7 @@ watchEffect(async () => {
   margin-top: var(--small-spacing);
   display: flex;
   flex-direction: row;
-  color: var(--color-orange);
+  color: var(--color-yellow-active);
 }
 .actions {
   display: flex;

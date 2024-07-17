@@ -22,6 +22,9 @@
   --color-primary-light: var(--color-blue-light);
   --color-primary-active: var(--color-blue-active);
   --color-primary-background: var(--color-blue-faded);
+
+  --color-green-background: var(--color-green-faded);
+  --color-yellow-background: var(--color-yellow-faded);
 }
 
 .dark-mode:root {
@@ -38,6 +41,9 @@
   --color-primary-light: var(--color-blue-light);
   --color-primary-active: var(--color-blue-active);
   --color-primary-background: var(--color-blue-dark);
+
+  --color-green-background: var(--color-green-dark);
+  --color-yellow-background: var(--color-yellow-dark);
 }
 
 *,
@@ -80,8 +86,8 @@ h2 {
 
 h3 {
   color: var(--color-subheading);
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 h4 {

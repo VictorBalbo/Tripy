@@ -87,6 +87,9 @@ const searchLocation = async () => {
     isLoadingSuggestions.value = false
   }
 }
+
+const getColorFromVariables = (color: string) =>
+  getComputedStyle(document.documentElement).getPropertyValue(color)
 </script>
 
 <template>
@@ -101,7 +104,12 @@ const searchLocation = async () => {
             position: marker.coordinates,
             title: marker.name
           }"
-          :pin-options="{ scale: marker.placeId === currentPlace ? 1.25 : 1 }"
+          :pin-options="{
+            borderColor: getColorFromVariables('--color-yellow-dark'),
+            background: getColorFromVariables('--color-yellow'),
+            glyphColor: getColorFromVariables('--color-yellow-dark'),
+            scale: marker.placeId === currentPlace ? 1.25 : 1
+          }"
           @click="() => openCustomInfoWindow(marker.placeId)"
         />
         <AdvancedMarker
@@ -113,9 +121,9 @@ const searchLocation = async () => {
             title: marker.Name
           }"
           :pin-options="{
-            borderColor: '#1476ff',
-            background: '#4995ff',
-            glyphColor: '#005ee2',
+            borderColor: getColorFromVariables('--color-green-dark'),
+            background: getColorFromVariables('--color-green'),
+            glyphColor: getColorFromVariables('--color-green-dark'),
             scale: 1
           }"
         />

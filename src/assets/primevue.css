@@ -23,10 +23,9 @@
   --p-accordion-header-padding: 0;
   --p-accordion-panel-border-width: 0;
   --p-accordion-content-padding: 0 var(--large-spacing);
-
-  /* Input Number */
 }
 
+/* Input Number */
 .p-inputnumber-input,
 .p-inputnumber-increment-button,
 .p-inputnumber-decrement-button {
@@ -41,11 +40,17 @@
 .p-inputnumber-decrement-button:hover {
   border: none;
   background-color: transparent;
+  color: var(--color-primary);
 }
 .p-inputnumber-input {
   padding: var(--small-spacing) 0;
   text-align: center;
-  width: 2.5rem;
+  width: 2.25rem;
   border-radius: 2rem;
   flex: 0;
+  box-shadow: 0 1px 3px #0003;
+  font-size: 0.875rem;
+}
+.p-inputnumber-input:hover {
+  box-shadow: 0 1px 12px #0000001f;
 }
