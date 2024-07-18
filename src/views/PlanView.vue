@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useTripStore } from '@/stores/tripStore'
 import { CardComponent, InputNumber } from '@/components'
-import { AddIcon, MinusIcon } from '@/components/icons'
+import { AddIcon, BedIcon, MinusIcon, MoonIcon, TicketIcon } from '@/components/icons'
 import dayjs from 'dayjs'
 import type { Destination } from '@/models'
 
 const tripStore = useTripStore()
 const updateNights = (destination: Destination, nights: number) => {
+  let change = 0
+  let isNewEndDateInValid = false
   tripStore.destinations = tripStore.destinations?.map((d) => {
-    let change = 0
-    let isNewEndDateInValid = false
     if (d.key === destination.key) {
       const previousNights = dayjs(destination.endDate).diff(destination.startDate, 'days')
       change = nights - previousNights
@@ -17,10 +17,11 @@ const updateNights = (destination: Destination, nights: number) => {
       if (!isNewEndDateInValid) {
         d.endDate = dayjs(d.endDate).add(change, 'd').toString()
       }
-    }
-    if (!isNewEndDateInValid && d.key > destination.key) {
-      d.startDate = dayjs(d.startDate).add(change, 'd').toString()
-      d.endDate = dayjs(d.endDate).add(change, 'd').toString()
+    } else {
+      if (!isNewEndDateInValid) {
+        d.startDate = dayjs(d.startDate).add(change, 'd').toString()
+        d.endDate = dayjs(d.endDate).add(change, 'd').toString()
+      }
     }
     return d
   })
@@ -30,58 +31,56 @@ const updateNights = (destination: Destination, nights: number) => {
   <header class="header">
     {{ tripStore.name }}
   </header>
-  <body class="body">
-    <section>
-      <CardComponent
-        v-for="destination in tripStore.destinations"
-        :key="destination.name"
-        class="destination-card"
-      >
-        <article class="name-field info-field">
-          <h2 class="elipsis">
-            {{ destination.name }}
-          </h2>
-          <p v-if="destination.startDate && destination.endDate" class="info-value">
-            {{ dayjs(destination.startDate).format('DD MMM') }} -
-            {{ dayjs(destination.endDate).format('DD MMM') }}
+  <section class="body">
+    <CardComponent
+      v-for="destination in tripStore.destinations"
+      :key="destination.name"
+      class="destination-card"
+    >
+      <article class="name-field info-field">
+        <h2 class="elipsis">
+          {{ destination.name }}
+        </h2>
+        <p v-if="destination.startDate && destination.endDate" class="info-value">
+          {{ dayjs(destination.startDate).format('ddd DD/MM') }} -
+          {{ dayjs(destination.endDate).format('ddd DD/MM') }}
+        </p>
+      </article>
+      <article class="nights-field info-field">
+        <h4 class="center"><MoonIcon class="icon" />Nights</h4>
+        <InputNumber
+          :modelValue="dayjs(destination.endDate).diff(destination.startDate, 'days')"
+          @update:model-value="(e: number) => updateNights(destination, e)"
+          :show-buttons="true"
+          :button-layout="'horizontal'"
+          class="info-value center"
+        >
+          <template #decrementbuttonicon>
+            <MinusIcon class="input-controls" />
+          </template>
+          <template #incrementbuttonicon>
+            <AddIcon class="input-controls" />
+          </template>
+        </InputNumber>
+      </article>
+      <article class="activities-field info-field">
+        <h4 class="center"><TicketIcon class="icon" />Activities</h4>
+        <p class="center info-value">
+          {{ destination.activities?.length ?? 0 }}
+        </p>
+      </article>
+      <article class="housing-field info-field">
+        <h4 class="center"><BedIcon class="icon" />Sleeping</h4>
+        <div class="info-value">
+          <p class="center elipsis">
+            {{ destination?.housing?.Name ?? '-' }}
           </p>
-        </article>
-        <article class="nights-field info-field">
-          <h2 class="center">Nights</h2>
-          <InputNumber
-            :modelValue="dayjs(destination.endDate).diff(destination.startDate, 'days')"
-            @update:model-value="(e: number) => updateNights(destination, e)"
-            :show-buttons="true"
-            :button-layout="'horizontal'"
-            class="info-value center"
-          >
-            <template #decrementbuttonicon>
-              <MinusIcon class="icon" />
-            </template>
-            <template #incrementbuttonicon>
-              <AddIcon class="icon" />
-            </template>
-          </InputNumber>
-        </article>
-        <article class="housing-field info-field">
-          <h2 class="center">Sleeping</h2>
-          <div class="info-value">
-            <p class="center elipsis">
-              {{ destination?.housing?.Name ?? '-' }}
-            </p>
-          </div>
-        </article>
-        <article class="activities-field info-field">
-          <h2 class="center">Activities</h2>
-          <p class="center info-value">
-            {{ destination.activities?.length ?? 0 }}
-          </p>
-        </article>
-      </CardComponent>
-    </section>
-  </body>
+        </div>
+      </article>
+    </CardComponent>
+  </section>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .header {
   background-color: var(--color-background-soft);
   padding: var(--large-spacing);
@@ -89,10 +88,11 @@ const updateNights = (destination: Destination, nights: number) => {
 }
 .body {
   padding: var(--large-spacing);
+  width: 100%;
 }
 .destination-card {
+  width: 100%;
   background-color: var(--color-background-soft);
-  padding: var(--large-spacing);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -101,7 +101,18 @@ const updateNights = (destination: Destination, nights: number) => {
 .info-field {
   display: flex;
   flex-direction: column;
-  padding: 0 var(--small-spacing);
+  padding: var(--large-spacing) var(--small-spacing);
+  transition: var(--default-transition);
+  &:first-child {
+    padding-left: var(--large-spacing);
+  }
+  &:last-child {
+    padding-right: var(--large-spacing);
+  }
+  .icon {
+    width: 1rem;
+    margin-right: var(--small-spacing);
+  }
 }
 .info-value {
   display: flex;
@@ -116,31 +127,59 @@ const updateNights = (destination: Destination, nights: number) => {
 }
 .name-field {
   width: 13rem;
+  &:hover {
+    background: var(--color-primary-background);
+    h2 {
+      color: var(--color-primary);
+    }
+  }
 }
 .nights-field {
-  width: 8rem;
+  width: 7rem;
+  .input-controls {
+    width: 0.875rem;
+  }
 }
 .housing-field {
-  width: 13rem;
+  width: 15rem;
+  &:hover {
+    background-color: var(--color-green-background);
+    h4 {
+      color: var(--color-green);
+    }
+  }
 }
 .activities-field {
-  width: 6rem;
+  width: 8rem;
+  &:hover {
+    background-color: var(--color-yellow-background);
+    h4 {
+      color: var(--color-yellow);
+    }
+  }
 }
 .icon {
-  width: 1rem;
+  width: 0.75rem;
 }
 .center {
+  width: 100%;
   text-align: center;
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
 @media (max-width: 720px) {
+  .name-field,
+  .housing-field {
+    flex-grow: 1;
+  }
   .activities-field {
     display: none;
   }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 490px) {
   .housing-field {
     display: none;
   }
