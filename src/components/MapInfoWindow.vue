@@ -335,6 +335,9 @@ watchEffect(async () => {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  &:hover .icon {
+    color: var(--color-primary-light);
+  }
 }
 .website-card {
   word-break: break-all;

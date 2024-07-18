@@ -1,32 +1,9 @@
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    version="1.1"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    x="0"
-    y="0"
-    viewBox="0 0 512 512"
-    style="enable-background: new 0 0 512 512"
-    xml:space="preserve"
-    class=""
-  >
-    <g>
-      <g data-name="03 Login">
-        <path
-          d="M256 512a25 25 0 0 1-25-25V25a25 25 0 0 1 50 0v462a25 25 0 0 1-25 25z"
-          fill="currentcolor"
-          opacity="1"
-          data-original="currentcolor"
-          class=""
-        ></path>
-        <path
-          d="M487 281H25a25 25 0 0 1 0-50h462a25 25 0 0 1 0 50z"
-          fill="currentcolor"
-          opacity="1"
-          data-original="currentcolor"
-          class=""
-        ></path>
-      </g>
-    </g>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+    <!--! Font Awesome Pro 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. -->
+    <path
+      fill="currentcolor"
+      d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
+    />
   </svg>
 </template>
