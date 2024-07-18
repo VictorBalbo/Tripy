@@ -6,6 +6,7 @@ import ButtonComponent from 'primevue/button'
 import DatePickerComponent from 'primevue/datepicker'
 import TagComponent from 'primevue/tag'
 import InputNumber from 'primevue/InputNumber'
+import ProgressSpinner from 'primevue/progressspinner'
 
 import CardComponent from './CardComponent.vue'
 import MapComponent from './MapComponent.vue'
@@ -21,5 +22,6 @@ export {
   ButtonComponent,
   DatePickerComponent,
   InputNumber,
+  ProgressSpinner,
   TagComponent
 }

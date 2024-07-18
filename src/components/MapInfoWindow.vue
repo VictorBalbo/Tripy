@@ -9,6 +9,7 @@ import {
   ButtonComponent,
   CardComponent,
   DatePickerComponent,
+  ProgressSpinner,
   TagComponent
 } from '.'
 import { AddIcon, EditIcon, GlobeIcon, StarIcon, TrashIcon } from './icons'
@@ -79,7 +80,7 @@ watchEffect(async () => {
         <AddIcon class="close-icon" />
       </article>
       <Transition name="slide-up">
-        <section v-if="!location" class="info-window-section">Loading</section>
+        <section v-if="!location" class="info-window-loading"><ProgressSpinner /></section>
         <section v-else class="info-window-section">
           <img
             class="photo"
@@ -90,7 +91,7 @@ watchEffect(async () => {
             <h2>{{ location.name }}</h2>
             <article class="rating">
               <StarIcon class="icon" />
-              <h4>{{ location.rating }} / 5</h4>
+              <h3>{{ location.rating }} / 5</h3>
             </article>
             <article>
               <TagComponent
@@ -139,7 +140,7 @@ watchEffect(async () => {
               @click="toogleEditingDate"
             >
               <article>
-                <h4>Date</h4>
+                <h3>Date</h3>
                 <p v-if="activity.dateTime">
                   {{ dayjs(activity.dateTime).format('ddd, DD MMM HH:mm') }}
                 </p>
@@ -148,7 +149,7 @@ watchEffect(async () => {
               <EditIcon class="icon" />
             </article>
             <article v-else-if="activity" class="card-info">
-              <h4>Date</h4>
+              <h3>Date</h3>
               <DatePickerComponent
                 v-model="activity.dateTime"
                 v-focustrap
@@ -163,19 +164,19 @@ watchEffect(async () => {
             </article>
 
             <article class="card-info">
-              <h4>Description</h4>
+              <h3>Description</h3>
               <p>{{ location.description }}</p>
             </article>
             <article class="card-info">
-              <h4>Address</h4>
+              <h3>Address</h3>
               <a :href="location.mapsUrl" target="_blank" rel="noopener">{{ location.address }}</a>
             </article>
             <article v-if="location.phoneNumber" class="card-info">
-              <h4>Phone</h4>
+              <h3>Phone</h3>
               <a :href="`tel:${location.phoneNumber}`">{{ location.phoneNumber }}</a>
             </article>
             <article v-if="location.website" class="card-info website-card">
-              <h4>Website</h4>
+              <h3>Website</h3>
               <a :href="location.website" target="_blank" rel="noopener">{{
                 getUrlDomain(location.website)
               }}</a>
@@ -188,8 +189,8 @@ watchEffect(async () => {
               <AccordionPanel value="1">
                 <AccordionHeader>
                   <section class="accordion-header">
-                    <h4>Opening Hours</h4>
-                    <p v-if="!isOpenHoursAccordionOpen">
+                    <h3>Opening Hours</h3>
+                    <p class="accordion-header-text">
                       {{
                         location.openingHours.weekday_text.find((o) =>
                           o.startsWith(new Date().toLocaleDateString('en-US', { weekday: 'long' }))
@@ -216,16 +217,14 @@ watchEffect(async () => {
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .info-window-container {
   width: 25rem;
   height: 100%;
   position: absolute;
   bottom: 0;
   padding: var(--large-spacing);
-}
-@media (max-width: 480px) {
-  .info-window-container {
+  @media (max-width: 480px) {
     width: 100%;
     padding: 0;
   }
@@ -241,6 +240,13 @@ watchEffect(async () => {
   position: absolute;
   display: flex;
   flex-direction: column;
+}
+.info-window-loading {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .close-button {
   position: absolute;
@@ -258,10 +264,10 @@ watchEffect(async () => {
   cursor: pointer;
   opacity: 0.75;
   transition: var(--default-transition);
-}
-.close-button:hover {
-  opacity: 1;
-  color: var(--color-primary);
+  &:hover {
+    opacity: 1;
+    color: var(--color-primary);
+  }
 }
 .close-icon {
   rotate: 45deg;
@@ -277,34 +283,33 @@ watchEffect(async () => {
   flex-direction: column;
   padding: var(--small-spacing) var(--large-spacing);
   background-color: var(--color-background-soft);
-  border-bottom: 1px var(--color-border) solid;
 }
 .rating {
   margin-top: var(--small-spacing);
   display: flex;
   flex-direction: row;
-  color: var(--color-yellow-active);
+  color: var(--color-yellow);
 }
 .actions {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   fill: var(--color-text);
-}
-.actions .link {
-  width: 45%;
-  color: var(--color-text);
-}
-.actions .add-button,
-.actions .remove-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 45%;
-}
-.remove-button {
-  color: var(--color-red);
-  border: 1px solid var(--color-red);
+  .link {
+    width: 45%;
+    color: var(--color-text);
+  }
+  .add-button,
+  .remove-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45%;
+  }
+  .remove-button {
+    color: var(--color-red);
+    border: 1px solid var(--color-red);
+  }
 }
 .body {
   display: flex;
@@ -343,6 +348,12 @@ watchEffect(async () => {
 }
 .tag {
   margin: var(--small-spacing) var(--small-spacing) var(--small-spacing) 0;
+}
+.accordion-header-text {
+  transition: var(--default-transition);
+}
+.p-accordionpanel-active .accordion-header-text {
+  opacity: 0;
 }
 .accordion-header {
   display: flex;

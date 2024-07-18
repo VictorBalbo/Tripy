@@ -16,7 +16,7 @@
   --color-subheading: var(--color-light-indigo);
   --color-text: var(--color-indigo);
 
-  --color-border: var(--color-light-gray);
+  --color-border: var(--color-light-indigo);
 
   --color-primary: var(--color-blue);
   --color-primary-light: var(--color-blue-light);
@@ -32,10 +32,10 @@
   --color-background-soft: var(--color-eerie-black);
 
   --color-heading: var(--color-white);
-  --color-subheading: var(--color-light-indigo);
-  --color-text: var(--color-light-gray);
+  --color-subheading: var(--color-faded-indigo);
+  --color-text: var(--color-faded-indigo);
 
-  --color-border: var(--color-eerie-black);
+  --color-border: var(--color-light-indigo);
 
   --color-primary: var(--color-blue);
   --color-primary-light: var(--color-blue-light);
@@ -88,13 +88,13 @@ h2 {
 }
 
 h3 {
-  color: var(--color-subheading);
+  color: var(--color-heading);
   font-size: 0.875rem;
   font-weight: 600;
 }
 
 h4 {
-  color: var(--color-heading);
+  color: var(--color-subheading);
   font-size: 0.875rem;
   font-weight: 600;
 }
