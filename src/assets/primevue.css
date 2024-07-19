@@ -23,6 +23,9 @@
   --p-accordion-header-padding: 0;
   --p-accordion-panel-border-width: 0;
   --p-accordion-content-padding: 0 var(--large-spacing);
+
+  /* Divider */
+  --p-divider-content-background: transparent;
 }
 
 /* Input Number */

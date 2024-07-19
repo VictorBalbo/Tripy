@@ -45,7 +45,11 @@ const addPlaceToTrip = () => {
     name: location.value!.name,
     coordinates: location.value!.coordinates
   })
-  const store = { Name: tripStore.name, Destinations: tripStore.destinations }
+  const store = {
+    Name: tripStore.name,
+    Destinations: tripStore.destinations,
+    Transportations: tripStore.transportations
+  }
   localStorage.setItem('tripStore', JSON.stringify(store))
 }
 const removePlaceFromTrip = () => {
@@ -53,7 +57,11 @@ const removePlaceFromTrip = () => {
     d.activities = d.activities?.filter((a) => a.placeId !== location.value?.placeId)
     return d
   })
-  const store = { Name: tripStore.name, Destinations: tripStore.destinations }
+  const store = {
+    Name: tripStore.name,
+    Destinations: tripStore.destinations,
+    Transportations: tripStore.transportations
+  }
   localStorage.setItem('tripStore', JSON.stringify(store))
 }
 
@@ -307,8 +315,12 @@ watchEffect(async () => {
     width: 45%;
   }
   .remove-button {
-    color: var(--color-red);
-    border: 1px solid var(--color-red);
+    color: var(--color-red-light);
+    border: 1px solid var(--color-red-light);
+    &:hover {
+      color: var(--color-red-active);
+      border: 1px solid var(--color-red-active);
+    }
   }
 }
 .body {
@@ -335,6 +347,9 @@ watchEffect(async () => {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  .icon {
+    transition: var(--default-transition);
+  }
   &:hover .icon {
     color: var(--color-primary-light);
   }
@@ -343,6 +358,7 @@ watchEffect(async () => {
   word-break: break-all;
 }
 .icon {
+  transition: var(--default-transition);
   width: 1rem;
   margin-right: var(--small-spacing);
 }

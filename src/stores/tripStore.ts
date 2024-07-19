@@ -26,6 +26,7 @@ export const useTripStore = defineStore('trip', () => {
     name: trip.value?.Name,
     destinations: trip.value?.Destinations,
     activities,
-    housing
+    housing,
+    transportations: trip.value?.Transportations
   }
 })

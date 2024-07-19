@@ -26,6 +26,7 @@
 
   --color-green-background: var(--color-green-faded);
   --color-yellow-background: var(--color-yellow-faded);
+  --color-red-background: var(--color-red-dark);
 }
 
 .dark-mode:root {
@@ -46,6 +47,7 @@
 
   --color-green-background: var(--color-green-dark);
   --color-yellow-background: var(--color-yellow-dark);
+  --color-red-background: var(--color-red-dark);
 }
 
 *,

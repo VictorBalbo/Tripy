@@ -6,7 +6,6 @@ export interface Destination {
   coordinates: Coordinates
   housing?: Housing
   activities?: Activity[]
-  transport?: string
   startDate?: string
   endDate?: string
 }
