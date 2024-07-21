@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTripStore } from '@/stores/tripStore'
-import { CardComponent, InputNumber } from '@/components'
+import { CardComponent, InputNumber, TransportationCard } from '@/components'
 import { AddIcon, BedIcon, MinusIcon, MoonIcon, TicketIcon } from '@/components/icons'
 import dayjs from 'dayjs'
 import type { Destination } from '@/models'
@@ -31,54 +31,61 @@ const updateNights = (destination: Destination, nights: number) => {
   <header class="header">
     {{ tripStore.name }}
   </header>
-  <section class="body">
-    <CardComponent
+  <main class="body">
+    <section
       v-for="destination in tripStore.destinations"
       :key="destination.name"
-      class="destination-card"
+      class="destination-section"
     >
-      <article class="name-field info-field">
-        <h2 class="elipsis">
-          {{ destination.name }}
-        </h2>
-        <p v-if="destination.startDate && destination.endDate" class="info-value">
-          {{ dayjs(destination.startDate).format('ddd DD/MM') }} -
-          {{ dayjs(destination.endDate).format('ddd DD/MM') }}
-        </p>
-      </article>
-      <article class="nights-field info-field">
-        <h4 class="center"><MoonIcon class="icon" />Nights</h4>
-        <InputNumber
-          :modelValue="dayjs(destination.endDate).diff(destination.startDate, 'days')"
-          @update:model-value="(e: number) => updateNights(destination, e)"
-          :show-buttons="true"
-          :button-layout="'horizontal'"
-          class="info-value center"
-        >
-          <template #decrementbuttonicon>
-            <MinusIcon class="input-controls" />
-          </template>
-          <template #incrementbuttonicon>
-            <AddIcon class="input-controls" />
-          </template>
-        </InputNumber>
-      </article>
-      <article class="activities-field info-field">
-        <h4 class="center"><TicketIcon class="icon" />Activities</h4>
-        <p class="center info-value">
-          {{ destination.activities?.length ?? 0 }}
-        </p>
-      </article>
-      <article class="housing-field info-field">
-        <h4 class="center"><BedIcon class="icon" />Sleeping</h4>
-        <div class="info-value">
-          <p class="center elipsis">
-            {{ destination?.housing?.Name ?? '-' }}
+      <CardComponent class="destination-card">
+        <article class="name-field info-field">
+          <h2 class="elipsis title">
+            {{ destination.name }}
+          </h2>
+          <p v-if="destination.startDate && destination.endDate" class="info-value">
+            {{ dayjs(destination.startDate).format('ddd DD/MM') }} -
+            {{ dayjs(destination.endDate).format('ddd DD/MM') }}
           </p>
-        </div>
-      </article>
-    </CardComponent>
-  </section>
+        </article>
+        <article class="nights-field info-field">
+          <h4 class="center"><MoonIcon class="icon" />Nights</h4>
+          <InputNumber
+            :modelValue="dayjs(destination.endDate).diff(destination.startDate, 'days')"
+            @update:model-value="(e: number) => updateNights(destination, e)"
+            :show-buttons="true"
+            :button-layout="'horizontal'"
+            class="info-value center"
+          >
+            <template #decrementbuttonicon>
+              <MinusIcon class="input-controls" />
+            </template>
+            <template #incrementbuttonicon>
+              <AddIcon class="input-controls" />
+            </template>
+          </InputNumber>
+        </article>
+        <article class="activities-field info-field">
+          <h4 class="center title"><TicketIcon class="icon" />Activities</h4>
+          <p class="center info-value">
+            {{ destination.activities?.length ?? 0 }}
+          </p>
+        </article>
+        <article class="housing-field info-field">
+          <h4 class="center title"><BedIcon class="icon" />Housing</h4>
+          <div class="info-value">
+            <p class="center elipsis">
+              {{ destination?.housing?.Name ?? '-' }}
+            </p>
+          </div>
+        </article>
+      </CardComponent>
+      <TransportationCard
+        v-if="tripStore.transportations?.find((t) => t.origin === destination.key)?.type"
+        :transport-type="tripStore.transportations.find((t) => t.origin === destination.key)!.type"
+        class="transportation"
+      />
+    </section>
+  </main>
 </template>
 <style scoped lang="scss">
 .header {
@@ -90,13 +97,18 @@ const updateNights = (destination: Destination, nights: number) => {
   padding: var(--large-spacing);
   width: 100%;
 }
+.destination-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .destination-card {
   width: 100%;
   background-color: var(--color-background-soft);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: var(--large-spacing);
+  margin-bottom: var(--small-spacing);
 }
 .info-field {
   display: flex;
@@ -110,9 +122,12 @@ const updateNights = (destination: Destination, nights: number) => {
     padding-right: var(--large-spacing);
   }
   .icon {
-    width: 1rem;
     margin-right: var(--small-spacing);
   }
+}
+.icon {
+  height: 1rem;
+  width: 1rem;
 }
 .info-value {
   display: flex;
@@ -125,11 +140,14 @@ const updateNights = (destination: Destination, nights: number) => {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.title {
+  transition: var(--default-transition);
+}
 .name-field {
   width: 13rem;
   &:hover {
     background: var(--color-primary-background);
-    h2 {
+    .title {
       color: var(--color-primary);
     }
   }
@@ -144,7 +162,7 @@ const updateNights = (destination: Destination, nights: number) => {
   width: 15rem;
   &:hover {
     background-color: var(--color-green-background);
-    h4 {
+    .title {
       color: var(--color-green);
     }
   }
@@ -153,13 +171,10 @@ const updateNights = (destination: Destination, nights: number) => {
   width: 8rem;
   &:hover {
     background-color: var(--color-yellow-background);
-    h4 {
+    .title {
       color: var(--color-yellow);
     }
   }
-}
-.icon {
-  width: 0.75rem;
 }
 .center {
   width: 100%;
@@ -168,7 +183,9 @@ const updateNights = (destination: Destination, nights: number) => {
   align-items: center;
   justify-content: center;
 }
-
+.transportation {
+  margin-bottom: var(--small-spacing);
+}
 @media (max-width: 720px) {
   .name-field,
   .housing-field {

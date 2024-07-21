@@ -34,6 +34,7 @@
 .p-inputnumber-decrement-button {
   border: none;
   width: 2rem;
+  height: 2rem;
 }
 .p-inputnumber-increment-button,
 .p-inputnumber-decrement-button {
@@ -48,6 +49,7 @@
 .p-inputnumber-input {
   padding: var(--small-spacing) 0;
   text-align: center;
+  height: 2.25rem;
   width: 2.25rem;
   border-radius: 2rem;
   flex: 0;

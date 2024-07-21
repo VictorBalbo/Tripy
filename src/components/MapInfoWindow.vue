@@ -97,7 +97,7 @@ watchEffect(async () => {
           />
           <header class="header">
             <h2>{{ location.name }}</h2>
-            <article class="rating">
+            <article v-if="location.rating" class="rating">
               <StarIcon class="icon" />
               <h3>{{ location.rating }} / 5</h3>
             </article>

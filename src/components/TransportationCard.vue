@@ -16,28 +16,34 @@ const types: Record<TransportTypes, Component> = {
 }
 </script>
 <template>
-  <DividerComponent layout="vertical">
-    <article class="transport-card">
-      <component :is="types[transportType]" class="icon" />
-      {{ transportType }}
-    </article>
-  </DividerComponent>
+  <article class="transport-card">
+    <component :is="types[transportType]" class="icon" />
+    <h2 class="transport-type">{{ transportType }}</h2>
+  </article>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .transport-card {
-  width: 4rem;
+  width: fit-content;
+  background-color: var(--color-background-soft);
   padding: var(--small-spacing);
-  background-color: var(--color-red-dark);
-  border: 1px solid var(--color-red);
   border-radius: var(--small-spacing);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  color: var(--color);
+  color: var(--color-red);
+  transition: var(--default-transition);
+  &:hover {
+    background-color: var(--color-red-background);
+    // border: 1px solid var(--color-red);
+  }
 }
 .icon {
   width: 1rem;
   height: 1rem;
+  margin-right: 5px;
+}
+.transport-type {
+  color: var(--color-red);
 }
 </style>
